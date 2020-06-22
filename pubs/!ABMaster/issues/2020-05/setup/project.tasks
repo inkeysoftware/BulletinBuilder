@@ -1,0 +1,7 @@
+# project.tasks
+define project name                               ;var pcode "AsiaBulletin"
+define list of headers to include in index/TOC    ;var header_list "h1"
+define list of all headers                        ;var allheader_list "h1 h2 h3 h4 h5 h6"
+as no xslt first make sure temp dir exists        ;checkdir "%projectpath%\temp"
+make sure html-check dir exists                   ;checkdir "%projectpath%\output"
+make project.xslt from the above variables        ;projectxslt

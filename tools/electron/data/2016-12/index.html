@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta charset="UTF-8">
+      <title>Vimod-Pub App</title>
+      <link rel="stylesheet" href="file:///C:/AsiaBulletin-SVN/trunk/tools/electron/css/electron.css">
+   </head>
+   <body>
+      <h1>2016-12 Project</h1>
+      <h3>project.menu</h3>
+      <ul class="table-view">
+         <li class="table-view-cell"><a href="../index.html">⇪</a></li>
+         <h4>Common menu - AsiaBulletinEmail.menu</h4><button type="button" id="executeBat1c1" style="width:60%">make html for checking                                      </button><br><script>
+    document.getElementById("executeBat1c1").addEventListener("click",function(e){
+        var myBatFilePath = "D:\\All-SIL-Publishing\\github-SILAsiaPub\\vimod-pub\\trunk\\pub.cmd tasklist  ab-build-xhtml.tasks";
+        const spawn = require('child_process').spawn;
+        const bat = spawn('cmd.exe', ['/c', myBatFilePath]);
+        bat.stdout.on('data', (data) => {
+            var str = String.fromCharCode.apply(null, data);
+            addLog(data);
+            console.info(str);
+        });
+        bat.stderr.on('data', (data) => {
+            var str = String.fromCharCode.apply(null, data);
+            addLog(data,"error");
+            console.error(str);
+        });
+        bat.on('exit', (code) => {
+            console.log(`Child exited with code ${code}`);
+            var preText = `Child exited with code ${code} : `;
+            switch(code){
+                case 0:
+                    addLog(preText+"All good","final");
+                    break;
+                case 1:
+                    addLog(preText+"An error ocurred while running tasks","final");
+                    break;
+            }
+        });
+    },false);
+</script><button type="button" id="executeBat1c2" style="width:60%">make html with inline css and pictures for emailing         </button><br><script>
+    document.getElementById("executeBat1c2").addEventListener("click",function(e){
+        var myBatFilePath = "D:\\All-SIL-Publishing\\github-SILAsiaPub\\vimod-pub\\trunk\\pub.cmd tasklist  ab-make-email-html.tasks";
+        const spawn = require('child_process').spawn;
+        const bat = spawn('cmd.exe', ['/c', myBatFilePath]);
+        bat.stdout.on('data', (data) => {
+            var str = String.fromCharCode.apply(null, data);
+            addLog(data);
+            console.info(str);
+        });
+        bat.stderr.on('data', (data) => {
+            var str = String.fromCharCode.apply(null, data);
+            addLog(data,"error");
+            console.error(str);
+        });
+        bat.on('exit', (code) => {
+            console.log(`Child exited with code ${code}`);
+            var preText = `Child exited with code ${code} : `;
+            switch(code){
+                case 0:
+                    addLog(preText+"All good","final");
+                    break;
+                case 1:
+                    addLog(preText+"An error ocurred while running tasks","final");
+                    break;
+            }
+        });
+    },false);
+</script><button type="button" id="executeBat1c3" style="width:60%">make html for PDF generation via Chrome and Firefox         </button><br><script>
+    document.getElementById("executeBat1c3").addEventListener("click",function(e){
+        var myBatFilePath = "D:\\All-SIL-Publishing\\github-SILAsiaPub\\vimod-pub\\trunk\\pub.cmd tasklist  ab-make-pdf-html.tasks";
+        const spawn = require('child_process').spawn;
+        const bat = spawn('cmd.exe', ['/c', myBatFilePath]);
+        bat.stdout.on('data', (data) => {
+            var str = String.fromCharCode.apply(null, data);
+            addLog(data);
+            console.info(str);
+        });
+        bat.stderr.on('data', (data) => {
+            var str = String.fromCharCode.apply(null, data);
+            addLog(data,"error");
+            console.error(str);
+        });
+        bat.on('exit', (code) => {
+            console.log(`Child exited with code ${code}`);
+            var preText = `Child exited with code ${code} : `;
+            switch(code){
+                case 0:
+                    addLog(preText+"All good","final");
+                    break;
+                case 1:
+                    addLog(preText+"An error ocurred while running tasks","final");
+                    break;
+            }
+        });
+    },false);
+</script></ul>
+      <hr><button type="button" onclick="resetLog()" style="width:60%">Clear log</button><br><ul id="log-container"></ul><script>'use strict';
+    function resetLog(){
+        return document.getElementById("log-container").innerHTML = "";
+    }
+    function addLog(message,type){
+        var el = document.getElementById("log-container");
+        var newItem = document.createElement("li");       // Create a li node
+        var textnode = document.createTextNode(message);  // Create a text node
+        if(type == "error"){
+            newItem.style.color = "red";
+        }else if(type == "final"){
+            newItem.style.color = "blue";
+        }
+        newItem.appendChild(textnode);                    // Append the text to li
+        el.appendChild(newItem);
+    }
+
+</script></body>
+</html>

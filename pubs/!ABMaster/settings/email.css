@@ -1,0 +1,73 @@
+/* CSS Document */
+body {font-size:11.0pt;font-family:"Trebuchet MS",sans-serif; line-height: 150%; bgcolor="#FFFFFF"; text="#000000"}
+/* structure control */
+#container {max-width:720px; margin-left:auto; margin-right:auto;}
+#content { float:left; max-width:720px; word-break:normal;}
+
+/* banner */
+#banner { margin: auto;text-align: center;}
+.banner-subhead {font-weight:bold; font-style: italic;}
+.banner-date {font-weight:bold;color:#ED7D31 }
+
+/* content only */
+#content h1 {font-family:"Gill Sans MT",sans-serif; color: #ED7D31;font-size: 15pt; margin: 0; padding: 16pt 0 5pt 0pt;clear:left;}
+#content h2 {font-family:"Gill Sans MT",sans-serif;color:#ED7D31;font-size: 12.5pt;font-weight: normal; margin: 0pt; padding: 6pt 0 4pt; clear:left;}
+#content h3 {font-family:"Gill Sans MT",sans-serif;color:#ED7D31;font-size: 10pt;font-weight: normal; margin: 0pt; padding: 2pt 0 3pt; }
+/* #content h4 {margin-left:2em;color:#777777;font-family:"Serif";font-weight:normal;font-size:9.0pt;} */
+#content h4 {margin-left:1em;text-indent:-1em;color:#777777;font-family:"Serif";font-weight:normal;font-size:9.0pt; margin-top: 0;}
+#content h1 .small-in-header {font-size:9.0pt;font-weight:normal;min-width: 300px;}    
+
+/* info side bar only */
+#info h1 {color: #ED7D31; font-size: 11pt;font-family:"Gill Sans MT",sans-serif; }
+#info h2 {color: #ED7D31;font-size: 10pt; font-family:"Gill Sans MT",sans-serif; font-weight:normal;}
+#info p {line-height: 150%; padding: 6pt 0 6pt 0}
+#info {padding-top: 2em;text-align: start;min-width: 120px;}
+#info hr {color: silver; width: 150px; height: 1px; margin: 3em 0 3em 2em; }
+#info li {list-style-type: none;}
+
+p { margin: 2pt 0 4pt 0}
+td {font-size:9.0pt;font-family:"Trebuchet MS",sans-serif; line-height: 150%; }
+
+
+/* picture */
+#content img {width: 100%; margin: 2pt 0 4pt 0}
+#info img { margin: 2pt 0 4pt 0}
+
+/* Picture floats */
+.float-left {float: left;padding: 0pt 1em 2pt 0;}
+.float-right {float: right;padding: 0pt 0pt 6pt 1em;}
+.float-right-max80 {float: right;padding: 0pt 0pt 6pt 1em; max-width: 80%}
+
+table { width: 12em; }
+
+/* picture classes usually on a page by page basis */  
+.googleapp {margin-bottom:3em}
+.jaappic {width: 120px} 
+.raise2em {margin-top: -2em}
+
+/* Paragraph classes */
+.clear-both {clear:both}
+.hanging {text-indent:-2em;}
+.q1 {margin-left:1em;}
+.q2 {margin-left:3em;}
+.q3 {position: relative;  left: 30px; right: 30px; color:#007700; padding-bottom: 2em; padding-top:2em}
+.italics 	{font-style:italic}
+.indent-div {position:relative;left:2em}
+.please-note {text-align: center; font-weight: bold;padding-top: 2em;}
+p.center {text-align: center;}
+.center > span {text-align: center;}
+.info-small {font-size:90%}
+.contributor {position:relative;left:3em;color:#777777;font-family:"Serif"}
+.ps {font-style:italic;position:relative;left:3em}
+.hilight-block {margin: 2pt 0 4pt 2em;color:#863D0C;}
+.toc-h1 {margin-left:1em; text-align:left; font-size:9pt; line-height: normal;}
+.toc-h2 {margin-left:3em; text-align:left; font-size:9pt; line-height: normal;}
+
+/* footer of content */
+p.next-edition { padding: 2em 0 2em 0; width:100%; text-align: center;}
+.next-edition > span { padding: 0em 0 1em 0; border-bottom: 2px solid #ED7D31;}
+
+
+/* unused ?? */  
+
+

@@ -1,0 +1,7 @@
+# project.tasks
+define project name                               ;var pcode "DemoEmail"
+define list of headers to include in index        ;var header_list "h1"
+as no xslt first make sure temp dir exists        ;checkdir "%projectpath%\xml"
+make sure html-check dir exists                   ;checkdir "%projectpath%\html-check"
+make sure html-final dir exists                   ;checkdir "%projectpath%\html-final"
+make project.xslt from the above variables        ;projectxslt
