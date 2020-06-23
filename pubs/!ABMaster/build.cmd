@@ -12,7 +12,10 @@ set syncFolder=%~dp2
 set masterFile=%~2
 set issueFolder=%thispub%issues\%issue%
 
-echo CLOSETAB Checking.html;GatewayPages.html;FinalEmail.html
+echo CLOSETAB BasicEmail.html;WikiPages.html;FinalEmail.html
+
+if not exist "%issueFolder%" mkdir %issueFolder%
+if %ERRORLEVEL% NEQ 0 Goto Failed
 
 echo Generate project.xslt
 java -jar "%build%\tools\saxon\saxon9he.jar" -o:"%thispub%scripts\xslt\project.xslt" "%thispub%settings\blank.xml" "%thispub%scripts\xslt\vimod-projecttasks2variable.xslt" projectpath="%issueFolder%"
@@ -42,31 +45,31 @@ call "%build%\node_modules\.bin\jade" -o "%issueFolder%" -E html -P "%issueFolde
 if %ERRORLEVEL% NEQ 0 Goto Failed
 
 echo.
-perl "%thispub%scripts\perl\tidy.pl" "%issueFolder%\ABStep1.html" "%issueFolder%\ABStep2.html"
+perl "%thispub%scripts\perl\tidy.pl" "%issueFolder%\ABStep1.html" "%issueFolder%\Untrimmed.html"
 if %ERRORLEVEL% NEQ 0 Goto Failed
 
 echo.
-perl "%thispub%scripts\perl\Trim2Excerpts.pl" "%issueFolder%\ABStep2.html" "%issueFolder%\Checking.html"
+perl "%thispub%scripts\perl\Trim2Excerpts.pl" "%issueFolder%\Untrimmed.html" "%issueFolder%\BasicEmail.html"
 if %ERRORLEVEL% NEQ 0 Goto Failed
 
 echo.
-perl "%thispub%scripts\perl\MakeImageList.pl" "%issueFolder%\Checking.html" "%issueFolder%\ImageList-Email.txt"
+perl "%thispub%scripts\perl\MakeImageList.pl" "%issueFolder%\BasicEmail.html" "%issueFolder%\Email-ImageList.txt"
 if %ERRORLEVEL% NEQ 0 Goto Failed
 
 echo.
 if not exist "%issueFolder%\img" mkdir %issueFolder%\img
-perl "%thispub%scripts\perl\AssembleFiles.pl" "%issueFolder%\ImageList-Email.txt" "%syncFolder%resources\%issue%\email;%syncFolder%resources\%issue%;%syncFolder%resources\common" "%issueFolder%\img" 
+perl "%thispub%scripts\perl\AssembleFiles.pl" "%issueFolder%\Email-ImageList.txt" "%syncFolder%resources\%issue%\email;%syncFolder%resources\%issue%;%syncFolder%resources\common" "%issueFolder%\img" 
 if %ERRORLEVEL% NEQ 0 Goto Failed
-echo OPENTAB Checking.html
+echo OPENTAB BasicEmail.html
 
 echo.
-perl "%thispub%scripts\perl\MakeGatewayPages.pl" "%issueFolder%\ABStep2.html" "%issueFolder%" "%issue%"
+perl "%thispub%scripts\perl\MakeWikiPages.pl" "%issueFolder%\Untrimmed.html" "%issueFolder%\WikiPages" "%issue%" "AB"
 if %ERRORLEVEL% NEQ 0 Goto Failed
-echo OPENTAB GatewayPages.html
+echo OPENTAB WikiPages.html
 
 echo.
 echo Run Juice
-call "%build%\node_modules\.bin\juice" "%issueFolder%\Checking.html" "%issueFolder%\juice.html"
+call "%build%\node_modules\.bin\juice" "%issueFolder%\BasicEmail.html" "%issueFolder%\juice.html"
 if %ERRORLEVEL% NEQ 0 Goto Failed
 
 echo.

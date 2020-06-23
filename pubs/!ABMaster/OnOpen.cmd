@@ -12,9 +12,6 @@ set syncFolder=%~dp2
 set masterFile=%~2
 set issueFolder=%thispub%issues\%issue%
 
-if not exist "%issueFolder%" mkdir %issueFolder%
-if %ERRORLEVEL% NEQ 0 Goto Failed
-
 if not exist "%syncFolder%resources" mkdir "%syncFolder%resources"
 if %ERRORLEVEL% NEQ 0 Goto Failed
 
@@ -24,8 +21,8 @@ if %ERRORLEVEL% NEQ 0 Goto Failed
 if not exist "%syncFolder%resources\%issue%\email" mkdir "%syncFolder%resources\%issue%\email"
 if %ERRORLEVEL% NEQ 0 Goto Failed
 
-if exist "%issueFolder%\Checking.html" echo OPENTAB Checking.html
-if exist "%issueFolder%\GatewayPages.html" echo OPENTAB GatewayPages.html
+if exist "%issueFolder%\BasicEmail.html" echo OPENTAB BasicEmail.html
+if exist "%issueFolder%\WikiPages.html" echo OPENTAB WikiPages.html
 if exist "%issueFolder%\FinalEmail.html" echo OPENTAB FinalEmail.html
 
 echo Loaded %masterFile%

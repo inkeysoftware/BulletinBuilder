@@ -14,7 +14,7 @@ set issueFolder=%thispub%issues\%issue%
 
 echo.
 if not exist "%issueFolder%\wiki-img" mkdir %issueFolder%\wiki-img
-perl "%thispub%scripts\perl\AssembleFiles.pl" "%issueFolder%\ImageList-Wiki.txt" "%syncFolder%resources\%issue%;%syncFolder%resources\common" "%issueFolder%\wiki-img" 
+perl "%thispub%scripts\perl\AssembleFiles.pl" "%issueFolder%\WikiPages-ImageList.txt" "%syncFolder%resources\%issue%;%syncFolder%resources\common" "%issueFolder%\wiki-img" 
 if %ERRORLEVEL% NEQ 0 Goto Failed
 
 explorer "%issueFolder%\wiki-img" 

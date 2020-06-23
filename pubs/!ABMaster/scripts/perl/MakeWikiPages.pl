@@ -1,5 +1,11 @@
 # Perl script to convert HTML to content suitable for wiki
 
+# Parameters: ($infile, $outfolder, $issueID, $spaceKey) = @ARGV;
+#       $infile    = untrimmed html file
+#       $outfilebase = path and base of output files
+#       $issueID   = Name of issue  e.g. "2020-07"
+#       $spaceKey  = Name of space on Confluence wiki  e.g. "AB"
+
 $spaceKey = 'AB';  # Setting used in Next link in Asia Bulletin space
 
 use utf8;                       # Source code is encoded using UTF-8.
@@ -37,11 +43,11 @@ sub getArticle {	 # This function is passed an article's body, tail, and next ar
 	$body =~ s/<table style="width: \w+;"><\/table>//g;
 	
 	# Replace image format where link is present
-	$body =~ s/class="(float-)?(left|right|center)">[\s\n]*(<a href=[^>]+>)<img src="img\/(.*?)" alt=""(?: id="")?\/>(<\/a>)/>$3<ac:image ac:align="$2" ac:thumbnail="true"> <ri:attachment ri:filename="$4"><ri:page ri:content-title="$projectID"\/><\/ri:attachment><\/ac:image>$5/g;
+	$body =~ s/class="(float-)?(left|right|center)">[\s\n]*(<a href=[^>]+>)<img src="img\/(.*?)" alt=""(?: id="")?\/>(<\/a>)/>$3<ac:image ac:align="$2" ac:thumbnail="true"> <ri:attachment ri:filename="$4"><ri:page ri:content-title="$issueID"\/><\/ri:attachment><\/ac:image>$5/g;
 	# Replace image format without link
-	$body =~ s/class="(float-)?(left|right|center)">[\s\n]*<img src="img\/(.*?)" alt=""(?: id="")?\/>/><ac:image ac:align="$2" ac:thumbnail="true"> <ri:attachment ri:filename=\"$3\"><ri:page ri:content-title=\"$projectID\"\/><\/ri:attachment><\/ac:image>/g;
+	$body =~ s/class="(float-)?(left|right|center)">[\s\n]*<img src="img\/(.*?)" alt=""(?: id="")?\/>/><ac:image ac:align="$2" ac:thumbnail="true"> <ri:attachment ri:filename=\"$3\"><ri:page ri:content-title=\"$issueID\"\/><\/ri:attachment><\/ac:image>/g;
 	
-	# "<ri:attachment ri:filename=\"$3\"><ri:page ri:content-title=\"$projectID\"/></ri:attachment>"
+	# "<ri:attachment ri:filename=\"$3\"><ri:page ri:content-title=\"$issueID\"/></ri:attachment>"
 	
 	# To do: Make main part and excerpt, based on readmore link if present. 
 	# Read More link will become like this in the Wiki: 
@@ -70,7 +76,7 @@ sub getArticle {	 # This function is passed an article's body, tail, and next ar
 	
 	$nextEsc = escHtml($next);
 	# $nextEsc =~ s/\&/\&amp;/g;
-	$nextcode = $next ? '<p><strong><span style="color: rgb(255,102,0);">Next: </span></strong><ac:link><ri:page ri:content-title="' . $nextEsc . '" ri:space-key="$spaceKey"/><ac:plain-text-link-body><![CDATA[' . $next . ']]></ac:plain-text-link-body></ac:link></p>'."\n" : "";
+	$nextcode = $next ? '<p><strong><span style="color: rgb(255,102,0);">Next: </span></strong><ac:link><ri:page ri:content-title="' . $nextEsc . '" ri:space-key="' . $spaceKey . '"/><ac:plain-text-link-body><![CDATA[' . $next . ']]></ac:plain-text-link-body></ac:link></p>'."\n" : "";
 	# defining beginning of macro
 	#<ac:structured-macro ac:macro-id="c3a3d273-bdde-4a66-b140-46175963f3dc" ac:name="excerpt" ac:schema-version="1"><ac:parameter ac:name="hidden">true</ac:parameter><ac:parameter ac:name="atlassian-macro-output-type">INLINE</ac:parameter>  <ac:rich-text-body>
 	$excerptbegin = '<ac:structured-macro ac:macro-id="c3a3d273-bdde-4a66-b140-46175963f3dc" ac:name="excerpt" ac:schema-version="1"><ac:parameter ac:name="hidden">true</ac:parameter><ac:parameter ac:name="atlassian-macro-output-type">INLINE</ac:parameter>  <ac:rich-text-body>' . "\n"; 
@@ -99,18 +105,20 @@ sub getArticle {	 # This function is passed an article's body, tail, and next ar
 		return $post . $tail . $nextcode . $excerptbegin . $pre . $wikilinkstart .$linktext . $wikilinkend . "</p> \n" .$tail . $excerptend  ;
 	}
 	if ($body =~ /href="(?:http:\/\/)?(readmore|comment|fullarticle)/is) {
-		return ("*" x 80) . "\nBUG in MakeGatewayPages.pl: $1 link found in this article should have been matched by regex!!!\n$body\n"
+		return ("*" x 80) . "\nBUG in $0: $1 link found in this article should have been matched by regex!!!\n$body\n"
 	}
 	return $body . $tail . $nextcode . $excerptbegin . $body . $tail . $excerptend  ;
 	
 }
 
-($txtfile, $outfolder, $projectID) = @ARGV;
-$outfile = "$outfolder/GatewayPages.txt";
-print "Running MakeGatewayPages.pl...\n   In:   '$txtfile'\n   Out: '$outfile'\n";
+($infile, $outfilebase, $issueID, $spaceKey) = @ARGV;
+$outfiletxt = "$outfilebase.txt";
+$outfilehtml = "$outfilebase.html";
+$outfileimg = "$outfilebase-imagelist.txt";
+print "Running MakeWikiPages.pl...\n   In:   '$infile'\n   Out: '$outfilebase*'\n";
 
-open IN, $txtfile or die "Unable to open input file: $txtfile\n";
-read IN, $_, -s $txtfile;
+open IN, $infile or die "Unable to open input file: $infile\n";
+read IN, $_, -s $infile;
 
 s/<\/div>[\s\n]*<!-- main content ends before this-->.*//s; # Delete content after articles
 
@@ -118,7 +126,7 @@ s/<\/div>[\s\n]*<!-- main content ends before this-->.*//s; # Delete content aft
 # s/<\/h4>/<\/sup>/g;
 
 foreach $i (/(?<=<img src="img\/).*?(?=")/g) { $image{$i} = 1; }
-open IMG, ">$outfolder/ImageList-Wiki.txt" or die "Unable to write to image list: $outfolder/ImageList-Wiki.txt\n";
+open IMG, ">$outfileimg" or die "Unable to write to image list: $outfileimg\n";
 print IMG join("\n", sort keys %image);
 close IMG;
 
@@ -176,14 +184,14 @@ foreach $head (@heads) {
 	}
 	$contents .= "\n\n";
 }
-open OUT, ">$outfile" or die "Unable to open output file: $outfile\n";
+open OUT, ">$outfiletxt" or die "Unable to open output file: $outfiletxt\n";
 print OUT chr(65279);
 print OUT $contents;
 close OUT;
 
 # Now do HTML version
 $outfile =~ s/\.txt$/.html/i;
-open OUT, ">$outfile" or die "Unable to open output file: $outfile\n";
+open OUT, ">$outfilehtml" or die "Unable to open output file: $outfilehtml\n";
 print OUT chr(65279);  # BOM
 print OUT "<!DOCTYPE html><html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"utf-8\" lang=\"utf-8\"><body>\n";
 $ct = 0;
