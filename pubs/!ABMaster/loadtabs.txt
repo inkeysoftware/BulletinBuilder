@@ -1,4 +1,0 @@
-// These are the LOADTAB commands that BulletinBuilder should run, if present, on opening a master file.
-Checking.html
-GatewayPages.html
-FinalEmail.html
