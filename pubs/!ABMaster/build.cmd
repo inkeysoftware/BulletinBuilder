@@ -68,6 +68,10 @@ if %ERRORLEVEL% NEQ 0 Goto Failed
 echo OPENTAB WikiPages.html
 
 echo.
+CertUtil -encode "%issueFolder%\ChildPageDefinitions.txt" "%issueFolder%\WikiPagesBase64.txt" 
+if %ERRORLEVEL% NEQ 0 Goto Failed
+
+echo.
 echo Run Juice
 call "%build%\node_modules\.bin\juice" "%issueFolder%\BasicEmail.html" "%issueFolder%\juice.html"
 if %ERRORLEVEL% NEQ 0 Goto Failed
