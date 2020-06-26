@@ -67,9 +67,9 @@ perl "%thispub%scripts\perl\MakeWikiPages.pl" "%issueFolder%\Untrimmed.html" "%i
 if %ERRORLEVEL% NEQ 0 Goto Failed
 echo OPENTAB WikiPages.html
 
-echo.
-CertUtil -encode "%issueFolder%\ChildPageDefinitions.txt" "%issueFolder%\WikiPagesBase64.txt" 
-if %ERRORLEVEL% NEQ 0 Goto Failed
+REM echo.
+REM CertUtil -encode "%issueFolder%\ChildPageDefinitions.txt" "%issueFolder%\WikiPagesBase64.txt" 
+REM if %ERRORLEVEL% NEQ 0 Goto Failed
 
 echo.
 echo Run Juice
