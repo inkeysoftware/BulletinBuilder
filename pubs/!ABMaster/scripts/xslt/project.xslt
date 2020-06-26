@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
-   <xsl:variable name="projectpath"
-                 select="'C:\git\BulletinBuilder\pubs\!ABMaster\issues\2020-07'"/>
+   <xsl:variable name="projectpath" select="'c:\BulletinBuilder\pubs\!ABMaster\issues\2020-07'"/>
    <xsl:variable name="cd" select="''"/>
    <xsl:variable name="true" select="tokenize('true yes on 1','\s+')"/>
    <xsl:variable name="comment1" select="'# project.tasks'"/>
