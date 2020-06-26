@@ -21,6 +21,17 @@ sub escHtml {
   return $txt;
 }
 
+sub escEsc {
+  my ($txt) = @_;
+  $txt =~ s/&/░amp;/g;
+  $txt =~ s/"/░quot;/g;
+  $txt =~ s/'/░#39;/g;
+  $txt =~ s/</░lt;/g;
+  $txt =~ s/>/░gt;/g;
+  $txt =~ s/\x{FEFF}/▤/g;
+  return $txt;
+}
+
 sub getMissingCloseTags {  # Get any close tags that are missing, probably due to [Read More] coming before the close.
 	my ($body) = @_;
 	$body =~ s/<\w+[^>]*\/>//g;  # Ignore self-closing tags like <br/>
@@ -170,23 +181,26 @@ for ($i=$#heads-1; $i>=0; $i--) {
 	}
 }
 
-# First output the plain text version
-foreach $head (@heads) {
-	$contents .= ("=" x 80);
-	# $contents .= "\nType: " . $type{$head};
-	if ($type{$head} eq "S") {
-		$contents .= "\nTEMPLATE:\tSection\nTITLE:\t$head\nUNDER:\t$level{$head}\n";
-	} else {
-		# $contents .= "\nTEMPLATE:\tArticle\nTITLE:\t$head\nUNDER:\t$level{$head}\nIMAGES:\t$images{$head}\n";
-		$contents .= "\nTEMPLATE:\tArticle\nTITLE:\t$head\nUNDER:\t$level{$head}\n";
-		$contents .= ("_" x 80) . "\n";
-		$contents .= getArticle($body{$head}, $tail{$head}, $next{$head});
-	}
-	$contents .= "\n\n";
+# First output the upload version
+
+$sectionBody = '░lt;p class=░quot;auto-cursor-target░quot;░gt; ░lt;br/░gt; ░lt;/p░gt; ░lt;ac:structured-macro ac:macro-id=░quot;db81b2c0-9320-4157-b5a7-82d2ef82b114░quot; ac:name=░quot;excerpt░quot; ac:schema-version=░quot;1░quot;░gt; ░lt;ac:parameter ac:name=░quot;atlassian-macro-output-type░quot;░gt;INLINE░lt;/ac:parameter░gt; ░lt;ac:rich-text-body░gt; ░lt;p░gt; ░lt;ac:structured-macro ac:macro-id=░quot;0395ee58-1b70-4c4d-9218-b6ca924736b5░quot; ac:name=░quot;children░quot; ac:schema-version=░quot;2░quot;░gt; ░lt;ac:parameter ac:name=░quot;style░quot;░gt;h3░lt;/ac:parameter░gt; ░lt;ac:parameter ac:name=░quot;sort░quot;░gt;creation░lt;/ac:parameter░gt; ░lt;ac:parameter ac:name=░quot;excerptType░quot;░gt;rich content░lt;/ac:parameter░gt; ░lt;/ac:structured-macro░gt; ░lt;/p░gt; ░lt;/ac:rich-text-body░gt; ░lt;/ac:structured-macro░gt; ░lt;p class=░quot;auto-cursor-target░quot;░gt; ░lt;br/░gt; ░lt;/p░gt;';
+
+sub preparedForUpload {
+   my ($txt) = @_;
+   $txt =~ s/\n/ /g;
+   $txt =~ s/ {2,}/ /g;
+   return escEsc($txt);
 }
+
+foreach $head (@heads) {
+	$pgBody = ($type{$head} eq "S") ? $sectionBody : getArticle($body{$head}, $tail{$head}, $next{$head});
+	$parent = ($level{$head} eq 'TOP') ? $issueID : $level{$head};
+	push @pages, "▒▒$parent▒▒$head▒▒$pgBody";
+}
+$uploadContents = "<p>" . preparedForUpload(join("▓▓", @pages)) . "</p>";
 open OUT, ">$outfiletxt" or die "Unable to open output file: $outfiletxt\n";
 print OUT chr(65279);
-print OUT $contents;
+print OUT $uploadContents;
 close OUT;
 
 # Now do HTML version
@@ -194,6 +208,14 @@ $outfile =~ s/\.txt$/.html/i;
 open OUT, ">$outfilehtml" or die "Unable to open output file: $outfilehtml\n";
 print OUT chr(65279);  # BOM
 print OUT "<!DOCTYPE html><html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"utf-8\" lang=\"utf-8\"><body>\n";
+print OUT '<hr><p>Copy this text into the Source Editor of a page named "BBSource".</p>'
+	.'<table style="background-color: orange; border: 2px black solid;">'
+	.'<tr><th><button id="button" onclick="copyTextArea(\'ALL\')">Copy all</button></th>'
+	.'<td><textarea id="ALL" rows="3" cols="90">' 
+	.escHtml($uploadContents)
+	.'</textarea></td></tr></table><hr>'
+	.'<p>Alternatively, you can copy and paste individual page titles and contents from the table below to create pages manually:</p>';
+
 $ct = 0;
 foreach $head (@heads) {
 	$ct++;
