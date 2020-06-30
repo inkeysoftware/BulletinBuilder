@@ -211,13 +211,7 @@ $outfile =~ s/\.txt$/.html/i;
 open OUT, ">$outfilehtml" or die "Unable to open output file: $outfilehtml\n";
 print OUT chr(65279);  # BOM
 print OUT "<!DOCTYPE html><html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"utf-8\" lang=\"utf-8\"><body>\n";
-print OUT '<hr><p>Copy this text into the Source Editor of a page named "BBSource".</p>'
-	.'<table style="background-color: orange; border: 2px black solid;">'
-	.'<tr><th><button id="button" onclick="copyTextArea(\'ALL\')">Copy all</button></th>'
-	.'<td><textarea id="ALL" rows="3" cols="90">' 
-	.escHtml($uploadContents)
-	.'</textarea></td></tr></table><hr>'
-	.'<p>Alternatively, you can copy and paste individual page titles and contents from the table below to create pages manually:</p>';
+print OUT '<hr><p>To manually update individual pages, you can copy and paste page titles and contents from the table below:</p>';
 
 $ct = 0;
 foreach $head (@heads) {
