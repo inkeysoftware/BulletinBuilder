@@ -13,11 +13,12 @@ set masterFile=%~2
 set issueFolder=%thispub%issues\%issue%
 
 echo.
-if not exist "%issueFolder%\wiki-img" mkdir %issueFolder%\wiki-img
-perl "%thispub%scripts\perl\AssembleFiles.pl" "%issueFolder%\WikiPages-ImageList.txt" "%syncFolder%resources\%issue%;%syncFolder%resources\common" "%issueFolder%\wiki-img" 
+if not exist "%issueFolder%\wiki-img" mkdir %issueFolder%\wiki-files
+perl "%thispub%scripts\perl\AssembleFiles.pl" "%issueFolder%\WikiPages-ImageList.txt" "%syncFolder%resources\%issue%;%syncFolder%resources\common;%issueFolder%" "%issueFolder%\wiki-files" 
 if %ERRORLEVEL% NEQ 0 Goto Failed
 
-explorer "%issueFolder%\wiki-img" 
+@echo explorer "%issueFolder%\wiki-files" 
+explorer "%issueFolder%\wiki-files" 
 
 echo.
 echo ***************** DONE
