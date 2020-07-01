@@ -193,9 +193,10 @@ sub preparedForUpload {
    return escEsc($txt);
 }
 
-push @pages, "3▒▒$issueID▒▒Template-Issue";
+$formatVersion = "3";
+push @pages, "$formatVersion▒▒$issueID▒▒BBTemplate-Issue";
 foreach $head (@heads) {
-	$pgBody = ($type{$head} eq "S") ? "UsePage▒▒Template-Section" : getArticle($body{$head}, $tail{$head}, $next{$head});
+	$pgBody = ($type{$head} eq "S") ? "UsePage:BBTemplate-Section" : getArticle($body{$head}, $tail{$head}, $next{$head});
 	$parent = ($level{$head} eq 'TOP') ? $issueID : $level{$head};
 	push @pages, "$parent▒▒$head▒▒$pgBody";
 }
