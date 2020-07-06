@@ -196,12 +196,12 @@ sub preparedForUpload {
 $formatVersion = "4";
 push @pages, "$formatVersion▒$issueID▒UsePage:BBTemplate-Issue";
 foreach $head (@heads) {
-	$pgBody = ($type{$head} eq "S") ? "UsePage:BBTemplate-Section" : getArticle($body{$head}, $tail{$head}, $next{$head});
+	$pgBody = ($type{$head} eq "S") ? "UsePage:BBTemplate-Section" : "\n" . getArticle($body{$head}, $tail{$head}, $next{$head});
 	$parent = ($level{$head} eq 'TOP') ? $issueID : $level{$head};
 	push @pages, "$parent▒$head▒▒$pgBody";
 }
-# $uploadContents = "<p>" . preparedForUpload(join("▓▓", @pages)) . "</p>";
-$uploadContents = join("▓", @pages);
+# $uploadContents = "<p>" . preparedForUpload(join("▓", @pages)) . "</p>";
+$uploadContents = join("\n▓\n", @pages);
 open OUT, ">$outfiletxt" or die "Unable to open output file: $outfiletxt\n";
 print OUT chr(65279);
 print OUT $uploadContents;
