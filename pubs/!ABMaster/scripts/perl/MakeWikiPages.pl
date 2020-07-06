@@ -194,7 +194,7 @@ sub preparedForUpload {
 }
 
 $formatVersion = "4";
-push @pages, "$formatVersion▒$issueID▒UsePage:BBTemplate-Issue";
+push @pages, "$formatVersion▒$issueID▒▒UsePage:BBTemplate-Issue";
 foreach $head (@heads) {
 	$pgBody = ($type{$head} eq "S") ? "UsePage:BBTemplate-Section" : "\n" . getArticle($body{$head}, $tail{$head}, $next{$head});
 	$parent = ($level{$head} eq 'TOP') ? $issueID : $level{$head};
