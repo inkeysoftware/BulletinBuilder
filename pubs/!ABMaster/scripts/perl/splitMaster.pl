@@ -91,6 +91,9 @@ while (<IN>) {
 				close BLOCK;
 				$_ = $stuff;
 			}
+			if ($outfilebase eq 'content' and /^#{1,2} /) {   # Remove any asterisk or underscore from headings that will be page titles.
+				s/[*_]//g;
+			}
 			if ($outfilebase eq 'content' and /^#{1,2} / and $addInvisibleChars) {
 				s/^(#{1,2}\s+)(.*?)\s*\n/modTitle($1,$2)/e;
 			}
