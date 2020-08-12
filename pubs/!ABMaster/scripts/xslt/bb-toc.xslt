@@ -9,7 +9,7 @@
     # Copyright:    (c) 2015 SIL International
     # Licence:      <LGPL>
     # 
-    # Create TOC with links to AB articles on Gateway.
+    # Create TOC with links to articles on Gateway.
     # In the project folder, adjust header_list value in setup\project.tasks to include h1 and h2, or h1 only.
     #
     ################################################################ -->
@@ -21,7 +21,7 @@
             <ul>
                   <xsl:for-each select="//*[local-name() = $header]">
                         <!-- uncomment this tag for one-heading-per-line TOC: <div class="toc-{local-name()}">  -->
-			<a href="https://gateway.sil.org/display/AB/{text()[1]}"><xsl:value-of select="text()[1]"/></a> • 
+			<a href="{$wikiurl}/{text()[1]}"><xsl:value-of select="text()[1]"/></a> • 
 		    <!-- uncomment this tag for one-heading per-line TOC: </div>  -->
                   </xsl:for-each>
             </ul>

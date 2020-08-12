@@ -1,12 +1,10 @@
 # Perl script to convert HTML to content suitable for wiki
 
-# Parameters: ($infile, $outfolder, $issueID, $spaceKey) = @ARGV;
+# Parameters: ($infile, $outfilebase, $issueID, $spaceKey) = @ARGV;
 #       $infile    = untrimmed html file
 #       $outfilebase = path and base of output files
 #       $issueID   = Name of issue  e.g. "2020-07"
 #       $spaceKey  = Name of space on Confluence wiki  e.g. "AB"
-
-$spaceKey = 'AB';  # Setting used in Next link in Asia Bulletin space
 
 use utf8;                       # Source code is encoded using UTF-8.
 use open ':encoding(utf-8)';    # Sets the default encoding for handles opened in scope.

@@ -1,7 +1,7 @@
 @echo off
 if exist "%~2" goto Continue
 echo usage: %~nX0 issue MasterFilename
-echo        e.g.   %~nX0 2020-07 "G:\My Drive\Asia Bulletin\AB Workspace\Sync\!ABMaster 2020-07.txt"
+echo        e.g.   %~nX0 2020-07 "G:\My Drive\Asia Bulletin\AB Workspace\Sync\!ABMaster#2020-07.txt"
 goto Done
 
 :Continue

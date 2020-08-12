@@ -1,7 +1,5 @@
 # Perl script to trim the email to contain just the excerpts
 
-$wikiSpaceUrl = 'https://gateway.sil.org/display/AB/';
-
 use utf8;                       # Source code is encoded using UTF-8.
 use open ':encoding(utf-8)';    # Sets the default encoding for handles opened in scope.
 use URI::Escape;
@@ -34,7 +32,8 @@ sub processBody { # This function is passed an article's bare heading and body (
 	return $body;
 }
 
-($txtfile, $outfile) = @ARGV;
+($txtfile, $outfile, $wikiSpaceUrl) = @ARGV;
+$wikiSpaceUrl .= '/' unless ($wikiSpaceUrl =~ /\/$/);
 print "Running Trim2Excerpts.pl...\n   In:  '$txtfile'\n   Out: '$outfile'\n";
 
 open IN, $txtfile or die "Unable to open input file: $txtfile\n";
