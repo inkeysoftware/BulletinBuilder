@@ -1,0 +1,5 @@
+# project.tasks
+set the URL of the wiki space                     ;var wikiurl "https://gateway.sil.org/display/AB"
+define list of headers to include in index/TOC    ;var header_list "h1"
+define list of all headers                        ;var allheader_list "h1 h2 h3 h4 h5 h6"
+make project.xslt from the above variables        ;projectxslt

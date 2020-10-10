@@ -50,8 +50,8 @@ print "   Issue folder:   $projectFolder\n";
 #print "   Output folder:  $outputFolder\n";
 $builderFolder = $projectFolder;
 $builderFolder =~ s/(.*)[\/\\]issues[\/\\].*/$1/ or pdie "Fatal error: project folder was expected to be a sub-folder of \\issues\\ \n";
-$masterFileFolder = $master;
-$masterFileFolder =~ s/[\/\\][^\/\\]+$// or pdie "Fatal error: masterFileFolder was expected to be specified in masterfile name \n";
+$syncFolder = $master;
+$syncFolder =~ s/[\/\\][^\/\\]+$// or pdie "Fatal error: Sync folder was expected to be specified in masterfile name \n";
 
 # Split master file into project files
 my $mtime = (stat($master))[9];
@@ -85,7 +85,7 @@ while (<IN>) {
 	} else {
 		if ($curOut) { 
 			if (/^#{5} block:\s*(\S.*?)\s*$/i) {
-				$blockFN = "$masterFileFolder\\..\\Common\\Block.$1.txt";
+				$blockFN = "$syncFolder\\Resources\\Common\\Block.$1.txt";
 				open BLOCK, $blockFN or pdie "Unable to open $blockFN.\nFile contained $&\n";
 				read BLOCK, $stuff, -s BLOCK;
 				close BLOCK;
